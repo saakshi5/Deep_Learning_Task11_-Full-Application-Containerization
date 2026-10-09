@@ -1,0 +1,12 @@
+{
+  "test_loss": 0.7295947670936584,
+  "test_accuracy": 0.75,
+  "class_labels": [
+    "Hardware",
+    "Network",
+    "Security",
+    "Software"
+  ],
+  "training_examples": 64,
+  "test_examples": 16
+}

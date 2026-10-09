@@ -1,0 +1,36 @@
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    image: incident-classifier-api:1.0
+    container_name: incident-api
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health', timeout=5)"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    image: incident-classifier-ui:1.0
+    container_name: incident-ui
+    ports:
+      - "8501:8501"
+    environment:
+      API_URL: http://api:5000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
